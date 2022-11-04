@@ -1,0 +1,218 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+/* -------- NAV STARTS HERE ---------- */
+nav{
+    height: 10vh;
+    background-color: lightgreen;
+    display: grid;
+    grid-template-columns: 1fr 3fr 1fr 1fr 1fr;
+}
+
+nav img {
+    margin: 1vh 3vh;
+    height: 8vh;
+    width: 8vh;
+    cursor: pointer;
+}
+
+nav img:hover {
+    background-color: blue;
+    border-radius: 4vh;
+}
+
+nav .title {
+    text-align: center;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 4vh;
+}
+
+.nav_add_user, .nav_update_user, .nav_delete_user {
+    background-color: aquamarine;
+    font-size: 2vh;
+    font-weight: bold;
+    color: green;
+    text-decoration: none;
+    margin: auto;
+    padding: 2vh 0;
+    width: 10vw;
+    text-align: center;
+    border-radius: 1vh;
+}
+
+.nav_add_user:hover, .nav_update_user:hover, .nav_delete_user:hover{
+    background-color:blue;
+    cursor: pointer;
+}
+
+/* --------- NAV ENDS HERE ----------- */
+
+/* --------- MAIN STARTS HERE -------- */
+
+
+main{
+    display: grid;
+    grid-template-columns: 1fr 6fr 1fr;
+}
+
+/* -------- MAIN LEFT STARTS HERE -------- */
+main .left {
+    text-align: center;
+    background-color: azure;
+}
+
+main .left .menu_user{
+    padding: 5px;
+    margin: 5px;
+    cursor: pointer;
+}
+
+main .left .menu_user a:focus{
+    color: red;
+}
+
+
+main .left .menu_user:hover{
+    font-weight: bold;
+    color: blue;
+}
+/* -------- MAIN LEFT ENDS HERE -------- */
+
+/* -------- MAIN MIDDLE STARTS HERE ------- */
+select {
+    width: 5vw;
+    height: 3vh;
+    font-size: 1vw;
+}
+
+main .add_section, main .update_section, main .delete_section {
+    display: none;
+}
+
+.main-middle-img {
+    height: 4vh;
+}
+
+.empty_div{
+    background-color: white;
+}
+
+.user_name_style{
+    background-color: rgba(173, 25, 25, 0.877);
+    color: white;
+    font-weight: bold;
+    font-size: 4vh;
+    border-radius: 2vh;
+}
+
+.container { 
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    gap: 0px 0px;
+    grid-auto-flow: row;
+    grid-template-areas:
+      "space_o1 . . . . . . . space_o9"
+      ". space_q1 . . . . . space_q5 ."
+      "space_o2 . . . . . . . space_o10"
+      ". . space_s1 . . . space_s3 . ."
+      "space_o3 . . . . . . . space_o11"
+      ". space_q2 . . . . . space_q6 ."
+      "space_o4 . . . . . . . space_o12"
+      ". . . space_f1 . space_f2 . . ."
+      "space_o5 . . . space_c1 . . . space_o13"
+      ". space_q3 . . . . . space_q7 ."
+      "space_o6 . . . . . . . space_o14"
+      ". . space_s2 . . . space_s4 . ."
+      "space_o7 . . . . . . . space_o15"
+      ". space_q4 . . . . . space_q8 ."
+      "space_o8 . . . . . . . space_o16";
+}
+
+.container div {
+    display: flex;
+    height: 5vh;
+    align-items: center;
+    justify-content: center;
+}
+
+.flag_area {
+    background-color: lightgray;
+    border-radius: 2.5vh;
+}
+
+.space_o1 { grid-area: space_o1; }
+
+.space_o2 { grid-area: space_o2; }
+
+.space_o3 { grid-area: space_o3; }
+
+.space_o4 { grid-area: space_o4; }
+
+.space_o5 { grid-area: space_o5; }
+
+.space_o6 { grid-area: space_o6; }
+
+.space_o7 { grid-area: space_o7; }
+
+.space_o8 { grid-area: space_o8; }
+
+.space_o9 { grid-area: space_o9; }
+
+.space_o10 { grid-area: space_o10; }
+
+.space_o11 { grid-area: space_o11; }
+
+.space_o12 { grid-area: space_o12; }
+
+.space_o13 { grid-area: space_o13; }
+
+.space_o14 { grid-area: space_o14; }
+
+.space_o15 { grid-area: space_o15; }
+
+.space_o16 { grid-area: space_o16; }
+
+.space_q1 { grid-area: space_q1; }
+
+.space_q2 { grid-area: space_q2; }
+
+.space_q3 { grid-area: space_q3; }
+
+.space_q4 { grid-area: space_q4; }
+
+.space_q5 { grid-area: space_q5; }
+
+.space_q6 { grid-area: space_q6; }
+
+.space_q7 { grid-area: space_q7; }
+
+.space_q8 { grid-area: space_q8; }
+
+.space_s1 { grid-area: space_s1; }
+
+.space_s2 { grid-area: space_s2; }
+
+.space_s3 { grid-area: space_s3; }
+
+.space_s4 { grid-area: space_s4; }
+
+.space_f1 { grid-area: space_f1; }
+
+.space_f2 { grid-area: space_f2; }
+
+.space_c1 { grid-area: space_c1; }
+
+/* ----------- MAIN MIDDLE ENDS HERE ------- */
+
+/* ---------MAIN RIGHT STARTS HERE -------- */
+main .right {
+    text-align: center;
+    background-color: azure;
+}
+/* -------MAIN RIGHT ENDS HERE ---------- */
+
+
+  
