@@ -29,7 +29,7 @@ session_start();
             document.getElementsByClassName("delete_section")[0].style.display = 'none';
             document.getElementsByClassName("middle_main")[0].style.display = 'none';
         } else if (update == 'true') {
-            document.getElementsByClassName("add_section")[0].style.display = 'none';
+            // document.getElementsByClassName("add_section")[0].style.display = 'none';
             document.getElementsByClassName("update_section")[0].style.display = 'block';
             document.getElementsByClassName("delete_section")[0].style.display = 'none';
             document.getElementsByClassName("middle_main")[0].style.display = 'none';
@@ -129,14 +129,14 @@ session_start();
 
     function remove_user(key) {
         window.location = "?remove_user=" + key;
-    }
+    }    
 </script>
 <!-- JS FUNCTIONS ENDS HERE -->
 
 <!-- PHP STARTS HERE -->
 <?PHP
 include_once "file_storage.php";
-$data = readDataFile('C:\xampp\htdocs\WorldCup\guess.json');
+$data = readDataFile('C:\xampp\htdocs\world-cup\guess.json');
 
 if (!isset($_SESSION['guess'])) {
     $_SESSION['guess'] = array();
@@ -178,8 +178,6 @@ if ($_SESSION['guess'] == array()) {
     );
 }
 
-
-
 if (!empty($_POST["add_user"])) {
     $data_to_add = $_POST;
     array_push($data, $data_to_add);
@@ -191,11 +189,7 @@ if (!empty($_POST["add_user"])) {
 $name = isset($_GET['name']) ? $_GET['name'] : "";
 $screen = isset($_GET['screen']) ? $_GET['screen'] : "";
 ?>
-
-
-
 <!-- PHP ENDS HERE -->
-
 
 <body>
 
@@ -306,8 +300,17 @@ $screen = isset($_GET['screen']) ? $_GET['screen'] : "";
                     echo ("<li>" . $key . ". " . $item['user_name'] . "</li>");
                 }
                 echo ("</ul>");
+
+                // TODO: select's with options value
                 if (!empty($_POST["update_user"])) {
                     $key_to_update = $_POST;
+                    echo ($key_to_update['user_id']);
+                    echo ("<h1>EWQUHUIQOEWHUOIEWQHOUEIWQHUOIQWEHOUIEWQIOUHEWIQHUUIHQWE</h1>");
+                    echo ("<div class=\"flag_area space_o1 testeSelectss\"></div>");
+                    // echo ("<script>country_choice(countries, spots, 'Brasil');</script>)");
+                    // echo ("<script>country_choice(countries, spots, ".$data[$key_to_update['user_id']]['o1'].");</script>)");
+                    // echo ('dasdasdadas'. $data[$key_to_update['user_id']]['o1']);
+                    echo ("<h1>QIUHUIQOEWHUOIEWQHOUEIWQHUOIQWEHOUIEWQIOUHEWIQHUUIHQWE</h1>");
                     echo ("<div class=\"container\">");
                     echo ("<div class=\"flag_area space_o1\"><img class='main-middle-img' src=./Images/flags/" . $data[$key_to_update['user_id']]['o1'] . ".svg></div>");
                     echo ("<div class=\"flag_area space_o2\"><img class='main-middle-img' src=./Images/flags/" . $data[$key_to_update['user_id']]['o2'] . ".svg></div>");
@@ -413,25 +416,38 @@ $screen = isset($_GET['screen']) ? $_GET['screen'] : "";
     </main>
 </body>
 
+
 <!-- JS FUNCTIONS STARTS HERE -->
+
 <script>
     /**
      * function to create select options for each spot
      */
-    function country_choice(list_countries, list_spots) {
+    function country_choice(list_countries, list_spots, optionn) {
         let string_option = "<div class='container'>"
+        console.log(optionn)
         for (j = 0; j < list_spots.length; j++) {
             string_option += "<div class='flag_area space_" + list_spots[j] + "'><label for='" + list_spots[j] + "'>" + list_spots[j] + ": </label><select class='icon-menu' name='" + list_spots[j] + "' id='" + list_spots[j] + "'>"
             for (i = 0; i < list_countries.length; i++) {
-                string_option += "<option value='" + list_countries[i] + "'>" + list_countries[i] + "</option>";
+                string_option += `<option value="${list_countries[i]}" ${list_countries[i] == optionn ? 'selected' : ''}>${list_countries[i]}</option>`;
             }
             string_option += "</select></div>";
         }
         "</div>"
         document.getElementsByClassName('add_form')[0].innerHTML = string_option;
+        // document.getElementsByClassName('testeSelectss')[0].innerHTML = string_option;
+
+        // console.log(optionn)
     }
-    country_choice(countries, spots);
+    country_choice(countries, spots, null);
+
+    // function selectOption(){
+        
+    // }
+    // selectOption()
+    
 </script>
+
 <!-- JS FUNCTIONS ENDS HERE -->
 
 </html>
