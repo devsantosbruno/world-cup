@@ -14,185 +14,24 @@ session_start();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link rel="stylesheet" href="style.css">
+    <script script src="index.js"></script>
 
     <title>Bolao da Copa</title>
 </head>
 <!-- HEAD ENDS HERE -->
 
-
-<!-- JS FUNCTIONS STARTS HERE -->
-<script>
-    function main_screen(main, add, update, del) {
-        if (add == 'true') {
-            document.getElementsByClassName("add_section")[0].style.display = 'block';
-            document.getElementsByClassName("update_section")[0].style.display = 'none';
-            document.getElementsByClassName("delete_section")[0].style.display = 'none';
-            document.getElementsByClassName("middle_main")[0].style.display = 'none';
-        } else if (update == 'true') {
-            // document.getElementsByClassName("add_section")[0].style.display = 'none';
-            document.getElementsByClassName("update_section")[0].style.display = 'block';
-            document.getElementsByClassName("delete_section")[0].style.display = 'none';
-            document.getElementsByClassName("middle_main")[0].style.display = 'none';
-        } else if (del == 'true') {
-            document.getElementsByClassName("add_section")[0].style.display = 'none';
-            document.getElementsByClassName("update_section")[0].style.display = 'none';
-            document.getElementsByClassName("delete_section")[0].style.display = 'block';
-            document.getElementsByClassName("middle_main")[0].style.display = 'none';
-        } else if (main == 'true') {
-            document.getElementsByClassName("add_section")[0].style.display = 'none';
-            document.getElementsByClassName("update_section")[0].style.display = 'none';
-            document.getElementsByClassName("delete_section")[0].style.display = 'none';
-            document.getElementsByClassName("middle_main")[0].style.display = 'block';
-        } else {
-            console('test');
-        }
-    }
-
-    function build_url(name) {
-        main_screen('true', 'false', 'false', 'false');
-        let a = "";
-        if (name != "empty") {
-            a = a + "name=" + name;
-        }
-        let url_string = "?" + a;
-        window.location = url_string;
-    }
-
-    let countries = [
-        "Alemanha",
-        "Arabia_Saudita",
-        "Argentina",
-        "Australia",
-        "Belgica",
-        "Brasil",
-        "Camaroes",
-        "Canada",
-        "Catar",
-        "Coreia_do_Sul",
-        "Costa_Rica",
-        "Croacia",
-        "Dinamarca",
-        "Equador",
-        "Espanha",
-        "Estados_Unidos",
-        "Franca",
-        "Gana",
-        "Holanda",
-        "Inglaterra",
-        "Ira",
-        "Japao",
-        "Marrocos",
-        "Mexico",
-        "Pais_de_Gales",
-        "Polonia",
-        "Portugal",
-        "Senegal",
-        "Servia",
-        "Suica",
-        "Tunisia",
-        "Uruguai"
-    ]
-
-    let spots = ["o1",
-        "o2",
-        "o3",
-        "o4",
-        "o5",
-        "o6",
-        "o7",
-        "o8",
-        "o9",
-        "o10",
-        "o11",
-        "o12",
-        "o13",
-        "o14",
-        "o15",
-        "o16",
-        "q1",
-        "q2",
-        "q3",
-        "q4",
-        "q5",
-        "q6",
-        "q7",
-        "q8",
-        "s1",
-        "s2",
-        "s3",
-        "s4",
-        "f1",
-        "f2",
-        "c1"
-    ]
-
-
-    function remove_user(key) {
-        window.location = "?remove_user=" + key;
-    }    
-</script>
-<!-- JS FUNCTIONS ENDS HERE -->
-
 <!-- PHP STARTS HERE -->
 <?PHP
 include_once "file_storage.php";
-$data = readDataFile('C:\xampp\htdocs\world-cup\guess.json');
 
-if (!isset($_SESSION['guess'])) {
-    $_SESSION['guess'] = array();
-}
-
-if ($_SESSION['guess'] == array()) {
-    $_SESSION['guess'] = array(
-        "o1" => "o1",
-        "o2" => "o2",
-        "o3" => "o3",
-        "o4" => "o4",
-        "o5" => "o5",
-        "o6" => "o6",
-        "o7" => "o7",
-        "o8" => "o8",
-        "o9" => "o9",
-        "o10" => "o10",
-        "o11" => "o11",
-        "o12" => "o12",
-        "o13" => "o13",
-        "o14" => "o14",
-        "o15" => "o15",
-        "o16" => "o16",
-        "q1" => "q1",
-        "q2" => "q2",
-        "q3" => "q3",
-        "q4" => "q4",
-        "q5" => "q5",
-        "q6" => "q6",
-        "q7" => "q7",
-        "q8" => "q8",
-        "s1" => "s1",
-        "s2" => "s2",
-        "s3" => "s3",
-        "s4" => "s4",
-        "f1" => "f1",
-        "f2" => "f2",
-        "c1" => "c1"
-    );
-}
-
-if (!empty($_POST["add_user"])) {
-    $data_to_add = $_POST;
-    array_push($data, $data_to_add);
-    $jsonData = json_encode($data);
-    file_put_contents('guess.json', $jsonData);
-    echo "<script>build_url('empty');</script>";
-}
-
-$name = isset($_GET['name']) ? $_GET['name'] : "";
-$screen = isset($_GET['screen']) ? $_GET['screen'] : "";
+include 'functions.php';
 ?>
 <!-- PHP ENDS HERE -->
 
-<body>
 
+
+
+<body>
     <!-- NAV STARTS HERE -->
     <nav>
         <div class="symbol">
@@ -417,37 +256,13 @@ $screen = isset($_GET['screen']) ? $_GET['screen'] : "";
 </body>
 
 
-<!-- JS FUNCTIONS STARTS HERE -->
 
+<!-- JS STARTS HERE -->
 <script>
-    /**
-     * function to create select options for each spot
-     */
-    function country_choice(list_countries, list_spots, optionn) {
-        let string_option = "<div class='container'>"
-        console.log(optionn)
-        for (j = 0; j < list_spots.length; j++) {
-            string_option += "<div class='flag_area space_" + list_spots[j] + "'><label for='" + list_spots[j] + "'>" + list_spots[j] + ": </label><select class='icon-menu' name='" + list_spots[j] + "' id='" + list_spots[j] + "'>"
-            for (i = 0; i < list_countries.length; i++) {
-                string_option += `<option value="${list_countries[i]}" ${list_countries[i] == optionn ? 'selected' : ''}>${list_countries[i]}</option>`;
-            }
-            string_option += "</select></div>";
-        }
-        "</div>"
-        document.getElementsByClassName('add_form')[0].innerHTML = string_option;
-        // document.getElementsByClassName('testeSelectss')[0].innerHTML = string_option;
-
-        // console.log(optionn)
-    }
-    country_choice(countries, spots, null);
-
-    // function selectOption(){
-        
-    // }
-    // selectOption()
-    
+    country_choice(countries, spots);
 </script>
+<!-- JS ENDS HERE -->
 
-<!-- JS FUNCTIONS ENDS HERE -->
+
 
 </html>
