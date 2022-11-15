@@ -1,7 +1,5 @@
 <?PHP
 
-
-
 if (isset($_POST['allGuesses'])) {
     $dsn = 'mysql:dbname=bolao;host=localhost';
     $dbUser = 'Rafael';

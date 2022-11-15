@@ -7,9 +7,9 @@
 /* -------- NAV STARTS HERE ---------- */
 nav{
     height: 10vh;
-    background-color: lightgreen;
+    background-color: rgb(78, 240, 78);
     display: grid;
-    grid-template-columns: 1fr 3fr 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr 3fr 1fr 1fr 1fr;
 }
 
 nav img {
@@ -17,6 +17,7 @@ nav img {
     height: 8vh;
     width: 8vh;
     cursor: pointer;
+    border-radius: 4vh;
 }
 
 nav img:hover {
@@ -27,10 +28,32 @@ nav img:hover {
 nav .title {
     text-align: center;
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    font-size: 4vh;
+    font-size: 2vw;
 }
 
-.nav_add_user, .nav_update_user, .nav_delete_user {
+nav .total {
+    /* text-align: center; */
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 2.5vh;
+}
+
+.middle_stats {
+    display: none;
+}
+
+.stats_buttons {
+    /* background-color: blue; */
+    margin: auto;
+    text-align: center;
+}
+
+nav .stats_buttons .hide_stats {
+    display: none;
+    background-color: red;
+    margin: auto;
+}
+
+.nav_add_user, .nav_update_user, .nav_delete_user, .display_stats, .hide_stats {
     background-color: aquamarine;
     font-size: 2vh;
     font-weight: bold;
@@ -43,31 +66,31 @@ nav .title {
     border-radius: 1vh;
 }
 
-.nav_add_user:hover, .nav_update_user:hover, .nav_delete_user:hover{
+.nav_add_user:hover, .nav_update_user:hover, .nav_delete_user:hover, .display_stats:hover, .hide_stats:hover{
     background-color:blue;
     cursor: pointer;
 }
-
 /* --------- NAV ENDS HERE ----------- */
 
 /* --------- MAIN STARTS HERE -------- */
-
-
 main{
     display: grid;
     grid-template-columns: 1fr 6fr 1fr;
+    height: 90vh;
 }
 
 /* -------- MAIN LEFT STARTS HERE -------- */
 main .left {
-    text-align: center;
-    background-color: azure;
+    /* text-align: center; */
+    background-color: rgb(119, 249, 119);
+    overflow-y: auto;
 }
 
 main .left .menu_user{
     padding: 5px;
     margin: 5px;
     cursor: pointer;
+    text-decoration: none;
 }
 
 main .left .menu_user a:focus{
@@ -88,12 +111,22 @@ select {
     font-size: 1vw;
 }
 
-main .add_section, main .update_section, main .delete_section {
+/* main .add_section, main .update_section, main .delete_section {
     display: none;
+} */
+
+.middle {
+    height: 80vh;
+    margin: 2vh;
 }
 
 .main-middle-img {
     height: 4vh;
+}
+
+.main_grid {
+    width: 90%;
+    margin: 5%;
 }
 
 .empty_div{
@@ -206,12 +239,106 @@ main .add_section, main .update_section, main .delete_section {
 
 .space_c1 { grid-area: space_c1; }
 
+/* -------- MAIN DISPLAY STATS STARTS HERE ------- */
+.div_row {
+    width: 100%;
+    display: flex;
+    
+}
+
+.div_fixed {
+    padding: 1vh;
+    width: 200px;
+    flex: 0 0 200px;
+    background-color: lightgrey;
+    text-align: start;
+    border: 1px solid black;
+}
+
+.div_flex {
+    padding: 1vh;
+    background-color: green;
+    text-align: end;
+    font-weight: bold;
+    color: white;
+    border: 1px solid black;
+}
+/* -------- MAIN DISPLAY STATS ENDS HERE ------- */
+
+/* -------- MAIN UPDATE USER STARTS HERE ------- */
+.update_user {
+    padding: 5px;
+    margin: 5px;
+    cursor: pointer;
+    text-decoration: none;
+    background-color: aliceblue;
+    list-style: none;
+}
+
+.update_user:hover{
+    font-weight: bold;
+    color: blue;
+    background-color: greenyellow;
+}
+
+.form_button {
+    padding: 1vh;
+    margin: 1vh;
+    background-color: greenyellow;
+}
+
+.form_button:hover {
+    background-color: blue;
+    color: white;
+    font-weight: bold;
+}
+
+.readonly {
+    background-color: grey;
+}
+
+.readonly:hover {
+    cursor: not-allowed;
+}
+
+/* -------- MAIN UPDATE USER ENDS HERE ------- */
+
+/* -------- MAIN DELETE USER STARTS HERE ------- */
+.delete_user {
+    padding: 5px;
+    margin: 5px;
+    cursor: pointer;
+    text-decoration: none;
+    background-color: orange;
+    list-style: none;
+}
+
+.delete_user:hover{
+    font-weight: bold;
+    color: white;
+    background-color: red;
+}
+
+/* -------- MAIN DELETE USER ENDES HERE ------- */
+
 /* ----------- MAIN MIDDLE ENDS HERE ------- */
 
 /* ---------MAIN RIGHT STARTS HERE -------- */
 main .right {
+    /* text-align: center; */
+    background-color: rgb(119, 249, 119);
+    text-decoration: none;
+    padding: 1vh 1vw;
+    overflow-y: auto;
+}
+
+main .right h3 {
     text-align: center;
-    background-color: azure;
+}
+
+main .right ul {
+    left: 1vw;
+    list-style: none;
 }
 /* -------MAIN RIGHT ENDS HERE ---------- */
 

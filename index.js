@@ -1,5 +1,6 @@
-
-let countries = ["_none",
+// Declaring Varables.
+let countries = [
+  "_none",
   'Alemanha',
   'Arabia_Saudita',
   'Argentina',
@@ -68,6 +69,7 @@ let spots = [
   'c1'
 ];
 
+// MAIN FUNCTION HOME STARTS HERE
 function home(){
   console.log("home()");
   var http = new XMLHttpRequest();
@@ -82,7 +84,10 @@ function home(){
             var data = http.response;
             json = JSON.parse(data);
             table(json,"Main");  
-            update_left_links(json);   
+            update_left_links(json); 
+            total_money(json,25);
+            most_chosen(json);  
+            DisplayPoints(points(json));
         }    
     };
     http.send(params); 
@@ -148,6 +153,57 @@ function rowToHTML(data){
       return html;
 }
 
+function total_money(data,betPrice){
+  console.log("total_money()");
+  let count = -1;
+  data.forEach(element => {
+    count++ 
+  });
+  let total = count*betPrice;
+  document.getElementsByClassName('total')[0].innerHTML = "Total: R$"+total+" <br> 1<sup>o</sup>: R$"+total*0.6+" <br>2<sup>o</sup>: R$"+total*0.4;
+}
+//MAIN FUNCTION HOME ENDS HERE
+
+//*************** FUNCTION DISPLAY STATS STARTS HERE ***************
+function DisplayPoints(pointsList){
+  // let pointsList = { Debora: 95, Eva: 86, Gilberto: 84, Nico: 71, Rafael: 96, Raquel: 96, Taiane: 85, Yuri: 96, Main: 162 };
+  let basePoint = pointsList['Main'];
+  let html= "<div><h4>Max pontos:"+basePoint+"</h4></div><div class='main_grid'>";
+    for (var key in pointsList){
+      if(key != 'Main'){
+        let finalValue=((77.3*pointsList[key])/basePoint);
+        html += "<div class='div_row'>";
+        html += "<div class='div_fixed'>";
+        html+=key;
+        html += "</div>";
+        html += "<div class='div_flex' style='flex:0 0 "+finalValue+"%'><h3>";
+        html+=pointsList[key];     
+        html += "</h3></div>";
+        html += "</div>";
+      }
+      
+    }        
+  
+  html += "</div>";
+  document.getElementsByClassName('middle_stats')[0].innerHTML = html;
+}
+
+function DisplayStats(){
+  document.getElementsByClassName('middle_main')[0].style.display = "none";
+  document.getElementsByClassName('hide_stats')[0].style.display = "block";
+  document.getElementsByClassName('display_stats')[0].style.display = "none";
+  document.getElementsByClassName('middle_stats')[0].style.display = "block";
+}
+
+function HideStats(){
+  document.getElementsByClassName('middle_main')[0].style.display = "block";
+  document.getElementsByClassName('hide_stats')[0].style.display = "none";
+  document.getElementsByClassName('display_stats')[0].style.display = "block";
+  document.getElementsByClassName('middle_stats')[0].style.display = "none";
+}
+// *************** FUNCTION DISPLAY STATS ENDS HERE ***************
+
+//FUNCTION ADD USER STARTS HERE
 function button_add(){
   let html= "<form action='functions.php' name='add_user' method='post'>";
       html+= "<input type='hidden' name='add_user' value='add_user'>";
@@ -155,18 +211,16 @@ function button_add(){
       html+= "<input type='text' id='user_name' name='user_name'><br><div class='add_form'>";      
       html+= form_add();
       html+= "</div>";
-      html+= "<input type='submit' value='Submit'>";
+      html+= "<input class='form_button' type='submit' value='ADD USER'>";
       html+= "</form>";
       document.getElementsByClassName('middle_main')[0].innerHTML = html;
       add_user.addEventListener("submit", function(event){
         var nameValue = document.getElementById("user_name").value;
-        if(nameValue == "Main3"){
+        if(nameValue == "Main"){
           event.preventDefault()
         }  
       }); 
 }
-
-
 
 function form_add(){
   let string_option="";
@@ -190,7 +244,9 @@ function form_add(){
   }
   return string_option;
 }
+//FUNCTION ADD USER ENDS HERE
 
+//FUNCTION UPDATE USER STARTS HERE
 function button_update(){
   console.log("button_update()");
   var http = new XMLHttpRequest();
@@ -219,7 +275,14 @@ function list_update(data){
   console.log("list_update()");
   let list = "<ul>";
     for (i = 0; i<linkPlayers.length; i++) {
-      list += "<li onclick='filter_player(\""+linkPlayers[i]+"\")'>"+linkPlayers[i]+"</li>"
+      if(linkPlayers[i]=='Main id: 221111094441'){
+        list += "<li class='update_user' onclick='filter_player(\""+linkPlayers[i]+"\")'>"+linkPlayers[i]+"</li>";
+      }
+    }
+    for (i = 0; i<linkPlayers.length; i++) {
+      if(linkPlayers[i]!='Main id: 221111094441'){
+        list += "<li class='update_user' onclick='filter_player(\""+linkPlayers[i]+"\")'>"+linkPlayers[i]+"</li>";
+      }
     }
     list += "</ul>";
     document.getElementsByClassName('middle_main')[0].innerHTML = list;
@@ -261,11 +324,12 @@ function display_player_choices(player){
   let html= "<form action='functions.php' name='update' method='post'>";
       html+= "<input type='hidden' name='update' value='update'>";
       html+= "<label for='user'>Username:</label><br>";
-      html+= "<input type='text' id='user_name' name='user_name' value='"+player[0].player_name+"'><br><div class='update_form'>";   
-      html+= "<input type='text' id='guess_id' name='guess_id' value='"+player[0].guess_id+"' readonly><br><div class='update_form'>";   
+      html+= "<input type='text' id='user_name' name='user_name' value='"+player[0].player_name+"'><br>"; 
+      html+= "<label for='user_id'>User Id:</label><br>";  
+      html+= "<input class='readonly' type='text' id='guess_id' name='guess_id' value='"+player[0].guess_id+"' readonly>";   
       html+= string_option;
       html+= "</div>";
-      html+= "<input type='submit' value='Submit'>";
+      html+= "<input class='form_button' type='submit' value='Update'>";
       html+= "</form>";
       document.getElementsByClassName('middle_main')[0].innerHTML = html;
 }
@@ -288,7 +352,9 @@ function filter_player(player){
     };
     http.send(params); 
 }
+//FUNCTION UPDATE USER ENDS HERE
 
+//FUNCTION DELETE USER STARTS HERE
 function button_delete(){
   console.log("button_delete()");
   var http = new XMLHttpRequest();
@@ -319,7 +385,7 @@ function list_delete(data){
   });
   let list = "<ul>";
     for (i = 0; i<linkPlayers.length; i++) {
-      list += "<li onclick='player_delete(\""+linkPlayers[i]+"\")'>"+linkPlayers[i]+"</li>"
+      list += "<li class='delete_user' onclick='player_delete(\""+linkPlayers[i]+"\")'>"+linkPlayers[i]+"</li>"
     }
     list += "</ul>";
     document.getElementsByClassName('middle_main')[0].innerHTML = list;
@@ -342,7 +408,9 @@ function player_delete(player){
     http.send(params); 
     
 }
+//FUNCTION DELETE USER ENDS HERE
 
+//LEFT MENU STARTS HERE
 function update_left_links(data){
   console.log("update_left_links()");
   var linkPlayers =[];
@@ -350,11 +418,18 @@ function update_left_links(data){
       linkPlayers.push(element.guess_id);  
   });
   let list = "<ul>";
-    for (i = 0; i<linkPlayers.length; i++) {
-      list += "<li onclick='home_each(\""+linkPlayers[i]+"\")'>"+linkPlayers[i]+"</li>"
-    }
-    list += "</ul>";
-    document.getElementsByClassName('left')[0].innerHTML = list;
+  for (i = 0; i<linkPlayers.length; i++) {
+    if(linkPlayers[i]=='Main id: 221111094441'){
+      list += "<li class='menu_user' onclick='home_each(\""+linkPlayers[i]+"\")'>"+linkPlayers[i]+"</li>"
+    }      
+  }
+  for (i = 0; i<linkPlayers.length; i++) {
+    if(linkPlayers[i]!='Main id: 221111094441'){
+      list += "<li class='menu_user' onclick='home_each(\""+linkPlayers[i]+"\")'>"+linkPlayers[i]+"</li>"
+    }      
+  }
+  list += "</ul>";
+  document.getElementsByClassName('left')[0].innerHTML = list;
 }
 
 function home_each(player){
@@ -375,12 +450,610 @@ function home_each(player){
     };
     http.send(params); 
 }
+//LEFT MENU ENDS HERE
 
+//RIGHT MENU STARTS HERE
+function most_chosen(data){
+  console.log("most_chosen()");
+  var teamQty ={};
+  for (i=0; i <= 15;i++){
+    data.forEach(element => {
+      if(element.player_name != "Main"){
+        if(element[spots[i]] in teamQty){
+          teamQty[element[spots[i]]] +=1 ;        
+        } else {
+          var name = element[spots[i]];
+          var val = 1;
+          teamQty[name] = val;
+        }
+      }      
+    })
+  }
+  function getSortedKeys(obj) {
+    var keys = Object.keys(obj);
+    return keys.sort(function(a,b){return obj[b]-obj[a]});
+  }
+  
+  var teamQtySorted = getSortedKeys(teamQty);
+  
+  let listTeams = "<h3>Times que <br>mais aparecem <br>nas Oitavas:</h3>";
+    listTeams += "<ul>";
+  for (i = 0; i<teamQtySorted.length;i++){
+    for (var key in teamQty){
+      if(key == teamQtySorted[i]){
+        if (key != "undefined"){
+          listTeams+="<li>";
+          listTeams+=key;
+          listTeams+=": ";
+          listTeams+=teamQty[key];     
+          listTeams+="</li>";
+        }  
+      }        
+    }
+  }
+  
+  listTeams+="</ul>";
 
+  document.getElementsByClassName("right")[0].innerHTML=listTeams; 
+}
+//RIGHT MENU ENDS HERE
 
+//***************   FUNCTION CALCULATE POINTS STARTS HERE ***************
+function points(data){
+  console.log("points()");
+  for (let i = 0 ; i < data.length; i++) {
+    if(data[i].player_name == "Main"){
+      var real = data[i];
+    } 
+  } 
+  var listPoints = {};
+  console.log(listPoints);  
+  console.log(real);
+  console.log(data.length);
+  // listPoints.array.forEach(element => {
+  //   console.log(element);
+  // });
+  // listPoints.toString();
+  // for (i=0; i <= data.length;i++){
+    // var listPoints = {};
+    console.log(typeof listPoints);
+    console.log(Object.values(listPoints).length);
+    data.forEach(element => {
+      // if(element.player_name != "Main"){        
+          var name = element.player_name;
+          var val = 0;
+          listPoints[name] = val;
+          // console.log(listPoints[name]);
+        // }
+        // console.log(name);
+        
+      }      
+    )
+  // }  
+  console.log(listPoints);
+  // console.log(listPoints['Debora']);
+  
+  var listSliceOitavas = spots.slice(0,16);
+  var listSliceQuartas = spots.slice(16,24);
+  var listSliceSemi = spots.slice(24,28);
+  var listSliceFinal = spots.slice(28,30);
+  
+  var points = 0;
+
+  for (let i = 0 ; i < data.length; i++){
+    points = 0;
+    var player = data[i];
+    listPoints[player.player_name]=0; 
+    console.log(player);
+    console.log("PRE GROUPS");  
+    listPoints[player.player_name]=points; 
+    console.log(listPoints);  
+    // 2 points groups  
+    points += CalculatePart2Groups(real,player,listSliceOitavas,listSliceQuartas);
+    console.log("PRE OITAVAS");  
+    listPoints[player.player_name]=points; 
+    console.log(listPoints);  
+    //3 points oitavas
+    points += CalculatePart3Oitavas(real,player,listSliceOitavas,listSliceQuartas);
+    console.log("PRE QUARTAS");  
+    listPoints[player.player_name]=points; 
+    console.log(listPoints);  
+    //4 points quartas
+    points += CalculatePart4Quartas(real,player,listSliceQuartas,listSliceSemi);
+    console.log("PRE SEMI");  
+    listPoints[player.player_name]=points; 
+    console.log(listPoints);  
+    //5 points semi
+    points += CalculatePart5Semis(real,player,listSliceSemi,listSliceFinal);
+    console.log("PRE FINAL");  
+    listPoints[player.player_name]=points; 
+    console.log(listPoints);  
+    //6 points final
+    points += CalculatePart6Final(real,player,listSliceSemi,listSliceFinal);
+    console.log("FIM");  
+    listPoints[player.player_name]=points; 
+    console.log(listPoints);  
+  }
+  return listPoints;
+}
+
+function CalculatePart2Groups(real,player,listSliceOitavas,listSliceQuartas){
+  let points = 0;
+  for(let j = 0 ; j < listSliceOitavas.length; j+=2){
+    if(real[spots[j]]!="_none"){
+      if(player[spots[j]] == real[spots[j]]){
+        points+=3;
+        console.log("+3");
+      }
+    }
+    
+  }
+  // 2b
+  for(let j = 1 ; j < listSliceOitavas.length; j+=2){
+    if(real[spots[j]]!="_none"){
+      if(player[spots[j]] == real[spots[j]]){
+        points+=2;
+        console.log("+2");
+      }
+    }
+    
+  }      
+  // 2c/d
+  for(let j = 0 ; j < listSliceOitavas.length; j+=1){
+    if(real[spots[j]]!="_none"){
+      if(player[spots[j]] != real[spots[j]]){
+        for(let k = 0 ; k < listSliceOitavas.length; k+=1){
+          if(player[spots[j]] == real[spots[k]]){
+            points+=1;
+            console.log("+1");
+            console.log(player[spots[j]]);
+          }
+        }
+      }
+    }
+    
+  }
+  return points;
+}
                     
-                    
-                
+function CalculatePart3Oitavas(real,player,listSliceOitavas,listSliceQuartas){     
+  points = 0;              
+  for(let j = 0 ; j < listSliceOitavas.length; j+=2){
+    if(real[spots[j]]!="_none"){
+      if(player[spots[j]] == real[spots[j]]){
+        if(player[spots[j+1]] == real[spots[j+1]]){
+          points+=5;
+          console.log("+5");
+          console.log(real[spots[j]]);
+          console.log("=")
+          console.log(real[spots[j]]);
+        }
+      }
+    }
+    
+  }
+  // 3b - part 1
+  for(let j = 0 ; j < listSliceOitavas.length; j+=2){
+    if(real[spots[j]]!="_none"){
+      if(player[spots[j]] != real[spots[j]]){
+        for(let k = 0 ; k < listSliceOitavas.length; k+=2){
+          if(player[spots[k]] == real[spots[j]]){
+            if (player[spots[k+1]] == real[spots[j+1]]) {
+              points+=4;
+              console.log("confronto correto pos errada+4");
+            }
+          }
+        }
+      }
+    }    
+  }
+  // 3b - part 2
+  for(let j = 1 ; j < listSliceOitavas.length; j+=2){
+    if(real[spots[j]]!="_none"){
+      if(player[spots[j]] != real[spots[j]]){
+        for(let k = 1 ; k < listSliceOitavas.length; k+=2){
+          if(player[spots[k]] == real[spots[j]]){
+            if (player[spots[k-1]] == real[spots[j-1]]) {
+              points+=4;
+              console.log("+4");
+            }
+          }
+        }
+      }
+    }
+    
+  }
 
+  // 3c - part 1
+  for(let j = 0 ; j < listSliceOitavas.length; j+=2){
+    if(real[spots[j]]!="_none"){
+      if(player[spots[j]] == real[spots[j]]){
+        if(player[spots[j+1]] != real[spots[j+1]]){
+          points+=2;
+          console.log("+2");
+        }
+      }
+    }
+    
+  }
+  // 3c - part 2
+  for(let j = 1 ; j < listSliceOitavas.length; j+=2){
+    if(real[spots[j]]!="_none"){
+      if(player[spots[j]] == real[spots[j]]){
+        if(player[spots[j-1]] != real[spots[j-1]]){
+          points+=2;
+          console.log("+2");
+        }
+      }
+    }
+    
+  }
+  // 3d - part 1
+  for(let j = 0 ; j < listSliceOitavas.length; j+=2){
+    if(real[spots[j]]!="_none"){
+      if(player[spots[j]] != real[spots[j]]){
+        for(let k = 0 ; k < listSliceOitavas.length; k+=2){
+          if(player[spots[k]] == real[spots[j]]){
+            if (player[spots[k+1]] != real[spots[j+1]]) {
+              points+=1;
+              console.log("+1");
+            }
+          }
+        }
+      }
+    }
+    
+  }
+  // 4d - part 2
+  for(let j = 1 ; j < listSliceOitavas.length; j+=2){
+    if(real[spots[j]]!="_none"){
+      if(player[spots[j]] != real[spots[j]]){
+        for(let k = 1 ; k < listSliceOitavas.length; k+=2){
+          if(player[spots[k]] == real[spots[j]]){
+            if (player[spots[k-1]] != real[spots[j-1]]) {
+              points+=1;
+              console.log("+1");
+            }
+          }
+        }
+      }
+    }    
+  }
+  
+  // 3e - part 1
+  for(let j = 16 ; j < 16+listSliceQuartas.length; j+=1){
+    if(real[spots[j]]!="_none"){
+      for(let k = 16 ; k < 16+listSliceQuartas.length; k+=1){
+        if(player[spots[j]] == real[spots[k]]){
+          points+=3;
+          console.log("+3");
+        }
+      }  
+    }
+      
+  }     
+  return points;
+} 
+
+function CalculatePart4Quartas(real,player,listSliceQuartas,listSliceSemi){     
+  points = 0;   
+  for(let j = 16 ; j < 16+listSliceQuartas.length; j+=2){
+    if(real[spots[j]]!="_none"){
+      if(player[spots[j]] == real[spots[j]]){
+        if(player[spots[j+1]] == real[spots[j+1]]){
+          points+=5;
+          console.log("confronto correto +5");
+        }
+      }
+    }
+    
+  }
+  // 4b - part 1
+  for(let j = 16 ; j < 16+listSliceQuartas.length; j+=2){
+    if(real[spots[j]]!="_none"){
+      if(player[spots[j]] != real[spots[j]]){
+        for(let k = 16 ; k < 16+listSliceQuartas.length; k+=2){
+          if(player[spots[k]] == real[spots[j]]){
+            if (player[spots[k+1]] == real[spots[j+1]]) {
+              points+=4;
+              console.log("confronto correto pos errada+4");
+            }
+          }
+        }
+      }
+    }
+    
+  }
+  // 4b - part 2
+  for(let j = 17 ; j < 16+listSliceQuartas.length; j+=2){
+    if(real[spots[j]]!="_none"){
+      if(player[spots[j]] != real[spots[j]]){
+        for(let k = 17 ; k < 16+listSliceQuartas.length; k+=2){
+          if(player[spots[k]] == real[spots[j]]){
+            if (player[spots[k-1]] == real[spots[j-1]]) {
+              points+=4;
+              console.log("+4");
+            }
+          }
+        }
+      }
+    }
+    
+  }
+
+  // 4c - part 1
+  for(let j = 16 ; j < 16+listSliceQuartas.length; j+=2){
+    if(real[spots[j]]!="_none"){
+      if(player[spots[j]] == real[spots[j]]){
+        if (player[spots[j+1]] != real[spots[j+1]]) {
+          points+=2;
+          console.log("+2");
+        }          
+      }
+    }
+    
+  }
+  
+  
+  // 4c - part 2
+  for(let j = 17 ; j < 16+listSliceQuartas.length; j+=2){
+    if(real[spots[j]]!="_none"){
+      if(player[spots[j]] == real[spots[j]]){
+        if (player[spots[j-1]] != real[spots[j-1]]) {
+          points+=2;
+          console.log("+2");
+        }          
+      }
+    }
+    
+  }
+  // 4d - part 1
+  for(let j = 16 ; j < 16+listSliceQuartas.length; j+=2){
+    if(real[spots[j]]!="_none"){
+      if(player[spots[j]] != real[spots[j]]){
+        for(let k = 16 ; k < 16+listSliceQuartas.length; k+=2){
+          if(player[spots[k]] == real[spots[j]]){
+            if (player[spots[k+1]] != real[spots[j+1]]) {
+              points+=1;
+              console.log("+1");
+            }
+          }
+        }
+      }
+    }
+    
+  }
+  // 4d - part 2
+  for(let j = 17 ; j < 16+listSliceQuartas.length; j+=2){
+    if(real[spots[j]]!="_none"){
+      if(player[spots[j]] != real[spots[j]]){
+        for(let k = 17 ; k < 16+listSliceQuartas.length; k+=2){
+          if(player[spots[k]] == real[spots[j]]){
+            if (player[spots[k-1]] != real[spots[j-1]]) {
+              points+=1;
+              console.log("+1");
+            }
+          }
+        }
+      }
+    }
+    
+  }
+  // 4e
+  for(let j = 24 ; j < 24+listSliceSemi.length; j+=1){
+    if(real[spots[j]]!="_none"){
+      for(let k = 24 ; k < 24+listSliceSemi.length; k+=1){
+        if(player[spots[j]] == real[spots[k]]){
+          points+=3;
+          console.log("+3");
+        }
+      } 
+    }
+           
+  }
+  
+
+  return points;
+}
+
+function CalculatePart5Semis(real,player,listSliceSemi,listSliceFinal){     
+  points = 0;  
+// 5a
+for(let j = 24 ; j < 24+listSliceSemi.length; j+=2){
+  if(real[spots[j]]!="_none"){
+    if(player[spots[j]] == real[spots[j]]){
+      if(player[spots[j+1]] == real[spots[j+1]]){
+        points+=5;
+        console.log("+5");
+      }
+    }
+  }
+  
+}
+// 5b - part 1
+for(let j = 24 ; j < 24+listSliceSemi.length; j+=2){
+  if(real[spots[j]]!="_none"){
+    if(player[spots[j]] != real[spots[j]]){
+      for(let k = 24 ; k < 24+listSliceSemi.length; k+=2){
+        if(player[spots[k]] == real[spots[j]]){
+          if (player[spots[k+1]] == real[spots[j+1]]) {
+            points+=4;
+            console.log("+4");
+          }
+        }
+      }
+    }
+  }
+  
+}
+// 5b - part 2
+for(let j = 25 ; j < 24+listSliceSemi.length; j+=2){
+  if(real[spots[j]]!="_none"){
+    if(player[spots[j]] != real[spots[j]]){
+      for(let k = 25 ; k < 24+listSliceSemi.length; k+=2){
+        if(player[spots[k]] == real[spots[j]]){
+          if (player[spots[k-1]] == real[spots[j-1]]) {
+            points+=4;
+            console.log("+4");
+          }
+        }
+      }
+    }
+  }
+  
+}
+
+// 5c - part 1
+for(let j = 24 ; j < 24+listSliceSemi.length; j+=2){
+  if(real[spots[j]]!="_none"){
+    if(player[spots[j]] == real[spots[j]]){
+      if (player[spots[j+1]] != real[spots[j+1]]) {
+        points+=2;
+        console.log("+2");
+      }          
+    }
+  }
+  
+}
+
+
+// 5c - part 2
+for(let j = 25 ; j < 24+listSliceSemi.length; j+=2){
+  if(real[spots[j]]!="_none"){
+    if(player[spots[j]] == real[spots[j]]){
+      if (player[spots[j-1]] != real[spots[j-1]]) {
+        points+=2;
+        console.log("+2");
+      }          
+    }
+  }
+  
+}
+// 5d - part 1
+for(let j = 24 ; j < 24+listSliceSemi.length; j+=2){
+  if(real[spots[j]]!="_none"){
+    if(player[spots[j]] != real[spots[j]]){
+      for(let k = 24 ; k < 24+listSliceSemi.length; k+=2){
+        if(player[spots[k]] == real[spots[j]]){
+          if (player[spots[k+1]] != real[spots[j+1]]) {
+            points+=1;
+            console.log("+1");
+          }
+        }
+      }
+    }
+  }
+  
+}
+// 5d - part 2
+for(let j = 25 ; j < 24+listSliceSemi.length; j+=2){
+  if(real[spots[j]]!="_none"){
+    if(player[spots[j]] != real[spots[j]]){
+      for(let k = 25 ; k < 24+listSliceSemi.length; k+=2){
+        if(player[spots[k]] == real[spots[j]]){
+          if (player[spots[k-1]] != real[spots[j-1]]) {
+            points+=1;
+            console.log("+1");
+          }
+        }
+      }
+    }
+  }
+  
+}
+// 5e
+for(let j = 28 ; j < 28+listSliceFinal.length; j+=1){
+  if(real[spots[j]]!="_none"){
+    for(let k = 28 ; k < 28+listSliceFinal.length; k+=1){
+      if(player[spots[j]] == real[spots[k]]){
+        points+=3;
+        console.log("+3");
+      }
+    }  
+  }
+        
+}
+  
+  return points;
+}
+
+function CalculatePart6Final(real,player,listSliceSemi,listSliceFinal){     
+  points = 0;  
+
+// 6a
+for(let j = 28 ; j < 28+listSliceFinal.length; j+=2){
+  if(real[spots[j]]!="_none"){
+    if(player[spots[j]] == real[spots[j]]){
+      if(player[spots[j+1]] == real[spots[j+1]]){
+        points+=5;
+        console.log("final correta +5");
+      }
+    }
+  }
+  
+}
+// 6b
+for(let j = 28 ; j < 28+listSliceFinal.length; j+=2){
+  if(real[spots[j]]!="_none"){
+    if(player[spots[j]] == real[spots[j+1]]){
+      if(player[spots[j+1]] == real[spots[j]]){
+        points+=4;
+        console.log("final correta pos trocada+4");
+      }  
+    }
+  }
+  
+}
+
+// 6c 
+if(player.c1 == real.c1){
+  if(real.c1 !="_none"){
+    points+=5;
+    console.log("acertando campeao +5");   
+  }             
+}        
+   
+// 6d
+for(let j = 28 ; j < 28+listSliceFinal.length; j+=2){
+  if(real[spots[j]]!="_none"){
+    if(player[spots[j]] == real[spots[j]]){
+      if(player[spots[j+1]] != real[spots[j+1]]){
+        points+=3;
+        console.log("1 pais certo +3");
+      }              
+    }
+    if(player[spots[j+1]] == real[spots[j+1]]){
+      if(player[spots[j]] != real[spots[j]]){
+        points+=3;
+        console.log("1 pais certo +3");
+      }              
+    }
+  }
+  
+}
+
+// 6e
+for(let j = 28 ; j < 28+listSliceFinal.length; j+=2){
+  if(real[spots[j]]!="_none"){
+    if(player[spots[j]] != real[spots[j]]){
+      if(player[spots[j]] == real[spots[j+1]]){
+        points+=2;
+        console.log("1 pais trocado 1 +2");
+      }              
+    }
+    if(player[spots[j+1]] != real[spots[j+1]]){
+      if(player[spots[j+1]] == real[spots[j]]){
+        points+=2;
+        console.log("1 pais trocado 2 +2");
+      }              
+    }
+  }
+  
+}
+return points;
+}
+
+
+//*************** FUNCTION CALCULATE POINTS ENDS HERE
 
 
